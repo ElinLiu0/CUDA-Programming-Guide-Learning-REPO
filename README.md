@@ -3,3 +3,4 @@
 
 - 目录
   - [第二章](https://github.com/RosterMouch/CUDA-Programming-Guide-Learning-REPO/tree/master/chap2)
+  - [第四章](https://github.com/RosterMouch/CUDA-Programming-Guide-Learning-REPO/tree/master/chap4)
