@@ -24,11 +24,12 @@ __host__ void some_func(int *a, int *b, int *c)
 __global__ void some_kernel_func(int *a, int *b, int *c)
 {
     // 初始化线程ID
-    int i = threadIdx.x;
+    int i = (blockIdx.x * blockDim.x) + threadIdx.x;
     // 对数组元素进行乘法运算
     a[i] = b[i] * c[i];
     // 打印打前处理的进程ID
-    printf("threadIdx.x = %d\n", i);
+    // 可以看到blockIdx并非是按照顺序启动的，这也说明线程块启动的随机性
+    printf("blockIdx.x = %d,blockDimx.x = %d,threadIdx.x = %d\n", blockIdx.x, blockDim.x, threadIdx.x);
 }
 
 int main(void)
@@ -57,20 +58,15 @@ int main(void)
     cudaMemcpy(gpu_b, b, size, cudaMemcpyHostToDevice);
     cudaMemcpy(gpu_c, c, size, cudaMemcpyHostToDevice);
     // 执行GPU核函数
-    some_kernel_func<<<1, 128>>>(gpu_a, gpu_b, gpu_c);
+    some_kernel_func<<<4, 32>>>(gpu_a, gpu_b, gpu_c);
     // 将GPU中的结果复制到CPU中
     cudaMemcpy(a, gpu_a, size, cudaMemcpyDeviceToHost);
-    // 打印结果
-    for (int i = 0; i < 128; i++)
-    {
-        printf("a[%d] = %d\n", i, a[i]);
-    }
-    return 0;
-    // 释放GPU和CPU内存
+    // 释放GPU和CPU中的内存
     cudaFree(gpu_a);
     cudaFree(gpu_b);
     cudaFree(gpu_c);
     free(a);
     free(b);
     free(c);
+    return 0;
 }

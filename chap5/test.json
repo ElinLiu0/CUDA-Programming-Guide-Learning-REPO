@@ -1,0 +1,10 @@
+[{
+    "userType":"{useTypeFromInput}",
+    "userSerial":"{userSerialFromInput}",
+    "userPassword":"{userPasswordFromInput}"
+},
+{
+    "userType":"teacher",
+    "userSerial":"Z22830413",
+    "userPassword":"c71d48425d8bdad3ddd531278ad409a7"
+}]

@@ -3,3 +3,5 @@
 a.out
 *.cubin
 *.cuout
+*.s
+.gitignore
